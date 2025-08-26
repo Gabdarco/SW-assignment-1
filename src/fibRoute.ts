@@ -3,17 +3,18 @@
 import fibonacci from "./fib";
 
 type Req = { params: { num: string } };
-type Res = { send: (msg: string) => void };
+type Res = { send: (body: string) => unknown };
 
 export default (req: Req, res: Res): void => {
-  const num: string = req.params.num;
+  const numStr: string = req.params.num;
+  const num: number = parseInt(numStr, 10);
 
-  const fibN = fibonacci(parseInt(num, 10));
-  let result: string = `fibonacci(${num}) is ${fibN}`;
+  const fibN: number = fibonacci(num);
 
-  if (fibN < 0) {
-    result = `fibonacci(${num}) is undefined`;
-  }
+  const result: string =
+    fibN < 0
+      ? `fibonacci(${num}) is undefined`
+      : `fibonacci(${num}) is ${fibN}`;
 
   res.send(result);
 };

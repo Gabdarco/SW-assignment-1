@@ -2,19 +2,15 @@
 
 import fibonacci from "./fib";
 
-type Req = { params: { num: string } };
-type Res = { send: (body: string) => unknown };
+export default (req, res) => {
+  const { num } = req.params;
 
-export default (req: Req, res: Res): void => {
-  const numStr: string = req.params.num;
-  const num: number = parseInt(numStr, 10);
+  const fibN = fibonacci(parseInt(num));
+  let result = `fibonacci(${num}) is ${fibN}`;
 
-  const fibN: number = fibonacci(num);
-
-  const result: string =
-    fibN < 0
-      ? `fibonacci(${num}) is undefined`
-      : `fibonacci(${num}) is ${fibN}`;
+  if (fibN < 0) {
+    result = `fibonacci(${num}) is undefined`;
+  }
 
   res.send(result);
 };
